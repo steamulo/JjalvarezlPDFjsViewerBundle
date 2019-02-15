@@ -6,9 +6,23 @@ use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
 class ViewerController extends AbstractController
 {
+    /**
+     * @var ParameterBagInterface
+     */
+    private  $params;
+
+    /**
+     * ViewerController constructor.
+     */
+    public function __construct(ParameterBagInterface $params)
+    {
+        $this->params = $params;
+    }
+
     /**
      * Solves de pdf final location under the restriction that pdf's viewers can be only seen in
      * webroot directories.
@@ -26,7 +40,7 @@ class ViewerController extends AbstractController
         }
 
         if($isPdfOutsideWebroot){
-            exec('cp '.$pdf.' '.$this->getParameter('kernel.project_dir').'/public'.$tmpPdfPath.' 2>&1', $output, $returnVal);
+            exec('cp '.$pdf.' '.$this->params->get('kernel.project_dir').'/public'.$tmpPdfPath.' 2>&1', $output, $returnVal);
             if($returnVal!=0){
                 throw new \Exception('Can not copy pdf file to temporal directory: Exit='.$returnVal.' Message: '.implode(' ',$output));
             }
