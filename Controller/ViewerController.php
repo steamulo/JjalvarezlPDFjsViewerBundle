@@ -26,7 +26,7 @@ class ViewerController extends Controller
         }
 
         if($isPdfOutsideWebroot){
-            exec('cp "'.$pdf.'" '.$this->get('kernel')->getRootDir().'/../web'.$tmpPdfPath.' 2>&1', $output, $returnVal);
+            exec('cp '.$pdf.' '.$this->getParameter('kernel.project_dir').'/public'.$tmpPdfPath.' 2>&1', $output, $returnVal);
             if($returnVal!=0){
                 throw new \Exception('Can not copy pdf file to temporal directory: Exit='.$returnVal.' Message: '.implode(' ',$output));
             }
@@ -44,7 +44,7 @@ class ViewerController extends Controller
      */
     public function renderTestViewer()
     {
-        return $this->render('jjalvarezlPDFjsViewerBundle:viewer:default.html.twig');
+        return $this->render('@jjalvarezlPDFjsViewer/viewer/default.html.twig');
     }
 
     /**
@@ -61,7 +61,7 @@ class ViewerController extends Controller
             $parameters['pdf'],
             !isset($parameters['tmpPdfDirectory'])? null : $parameters['tmpPdfDirectory']
         );
-        return $this->render('jjalvarezlPDFjsViewerBundle:viewer:default.html.twig',
+        return $this->render('@jjalvarezlPDFjsViewer/viewer/default.html.twig',
             $parameters
         );
     }
@@ -79,7 +79,7 @@ class ViewerController extends Controller
             $parameters['pdf'],
             !isset($parameters['tmpPdfDirectory'])? null : $parameters['tmpPdfDirectory']
         );
-        return $this->render('jjalvarezlPDFjsViewerBundle:viewer:custom.html.twig',
+        return $this->render('@jjalvarezlPDFjsViewer/viewer/custom.html.twig',
             $parameters
         );
     }
