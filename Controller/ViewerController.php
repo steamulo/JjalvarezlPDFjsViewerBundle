@@ -2,13 +2,27 @@
 
 namespace jjalvarezl\PDFjsViewerBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
+use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\DependencyInjection\ParameterBag\ParameterBagInterface;
 
-class ViewerController extends Controller
+class ViewerController extends AbstractController
 {
+    /**
+     * @var ParameterBagInterface
+     */
+    private  $params;
+
+    /**
+     * ViewerController constructor.
+     */
+    public function __construct(ParameterBagInterface $params)
+    {
+        $this->params = $params;
+    }
+
     /**
      * Solves de pdf final location under the restriction that pdf's viewers can be only seen in
      * webroot directories.
@@ -26,12 +40,13 @@ class ViewerController extends Controller
         }
 
         if($isPdfOutsideWebroot){
-            exec('cp "'.$pdf.'" '.$this->get('kernel')->getRootDir().'/../web'.$tmpPdfPath.' 2>&1', $output, $returnVal);
+            $splittedPDFRoute = explode('/', $pdf);
+            $filename = end($splittedPDFRoute);
+            exec('[ ! -f '.$this->params->get('kernel.project_dir').'/public'.$tmpPdfPath.$filename.' ] && cp '.$pdf.' '.$this->params->get('kernel.project_dir').'/public'.$tmpPdfPath.' 2>&1 || echo "File exists"', $output, $returnVal);
             if($returnVal!=0){
                 throw new \Exception('Can not copy pdf file to temporal directory: Exit='.$returnVal.' Message: '.implode(' ',$output));
             }
-            $splittedPDFRoute = explode('/', $pdf);
-            $pdf = end($splittedPDFRoute);
+            $pdf = $filename;
         }
         return $pdf;
     }
@@ -44,7 +59,7 @@ class ViewerController extends Controller
      */
     public function renderTestViewer()
     {
-        return $this->render('jjalvarezlPDFjsViewerBundle:viewer:default.html.twig');
+        return $this->render('@jjalvarezlPDFjsViewer/viewer/default.html.twig');
     }
 
     /**
@@ -61,7 +76,7 @@ class ViewerController extends Controller
             $parameters['pdf'],
             !isset($parameters['tmpPdfDirectory'])? null : $parameters['tmpPdfDirectory']
         );
-        return $this->render('jjalvarezlPDFjsViewerBundle:viewer:default.html.twig',
+        return $this->render('@jjalvarezlPDFjsViewer/viewer/default.html.twig',
             $parameters
         );
     }
@@ -79,7 +94,7 @@ class ViewerController extends Controller
             $parameters['pdf'],
             !isset($parameters['tmpPdfDirectory'])? null : $parameters['tmpPdfDirectory']
         );
-        return $this->render('jjalvarezlPDFjsViewerBundle:viewer:custom.html.twig',
+        return $this->render('@jjalvarezlPDFjsViewer/viewer/custom.html.twig',
             $parameters
         );
     }

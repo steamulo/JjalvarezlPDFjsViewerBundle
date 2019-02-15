@@ -1,8 +1,12 @@
 services:
-#    jjalvarezl_pd_fjs_viewer.example:
-#        class: jjalvarezl\PDFjsViewerBundle\Example
-#        arguments: ["@service_id", "plain_value", "%parameter%"]
-    jjalvarezl_pdfjs_viewer.viewer_controller:
-        class: jjalvarezl\PDFjsViewerBundle\Controller\ViewerController
-        calls:
-             - [setContainer, ["@service_container"]]
+  _defaults:
+    autowire: true      # Automatically injects dependencies in your services.
+    autoconfigure: true # Automatically registers your services as commands, event subscribers, etc.
+    public: false
+  #    jjalvarezl_pd_fjs_viewer.example:
+  #        class: jjalvarezl\PDFjsViewerBundle\Example
+  #        arguments: ["@service_id", "plain_value", "%parameter%"]
+  jjalvarezl_pdfjs_viewer.viewer_controller:
+    class: jjalvarezl\PDFjsViewerBundle\Controller\ViewerController
+    calls:
+      - [setContainer, ["@service_container"]]
