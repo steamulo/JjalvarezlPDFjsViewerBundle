@@ -1,8 +1,11 @@
 services:
+  _defaults:
+    bind:
+      $projectDir: '%kernel.project_dir%'
 #    jjalvarezl_pd_fjs_viewer.example:
 #        class: jjalvarezl\PDFjsViewerBundle\Example
 #        arguments: ["@service_id", "plain_value", "%parameter%"]
-    jjalvarezl_pdfjs_viewer.viewer_controller:
-        class: jjalvarezl\PDFjsViewerBundle\Controller\ViewerController
-        calls:
-             - [setContainer, ["@service_container"]]
+  jjalvarezl_pdfjs_viewer.viewer_controller:
+    class: jjalvarezl\PDFjsViewerBundle\Controller\ViewerController
+    calls:
+         - [setContainer, ["@service_container"]]
