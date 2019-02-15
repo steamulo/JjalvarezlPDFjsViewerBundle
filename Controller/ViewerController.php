@@ -2,12 +2,12 @@
 
 namespace jjalvarezl\PDFjsViewerBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
+Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
 use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ViewerController extends Controller
+class ViewerController extends AbstractController
 {
     /**
      * Solves de pdf final location under the restriction that pdf's viewers can be only seen in
