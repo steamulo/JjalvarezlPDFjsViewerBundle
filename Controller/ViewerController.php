@@ -42,7 +42,7 @@ class ViewerController extends AbstractController
         if($isPdfOutsideWebroot){
             $splittedPDFRoute = explode('/', $pdf);
             $filename = end($splittedPDFRoute);
-            exec('[ ! -f '.$this->params->get('kernel.project_dir').'/public'.$tmpPdfPath.$filename.' ] && cp '.$pdf.' '.$this->params->get('kernel.project_dir').'/public'.$tmpPdfPath.' 2>&1 || echo "File exists"', $output, $returnVal);
+            exec('[ ! -f "'.$this->params->get('kernel.project_dir').'/public'.$tmpPdfPath.$filename.'" ] && cp "'.$pdf.'" "'.$this->params->get('kernel.project_dir').'/public'.$tmpPdfPath.'" 2>&1 || echo "File exists"', $output, $returnVal);
             if($returnVal!=0){
                 throw new \Exception('Can not copy pdf file to temporal directory: Exit='.$returnVal.' Message: '.implode(' ',$output));
             }
