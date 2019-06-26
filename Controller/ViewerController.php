@@ -16,14 +16,6 @@ class ViewerController extends AbstractController
     private  $params;
 
     /**
-     * ViewerController constructor.
-     */
-    public function __construct(ParameterBagInterface $params)
-    {
-        $this->params = $params;
-    }
-
-    /**
      * Solves de pdf final location under the restriction that pdf's viewers can be only seen in
      * webroot directories.
      *
@@ -107,12 +99,19 @@ class ViewerController extends AbstractController
      *
      * @return Response, Error in pdf deletion. If it's ok, this function must return an empty string.
      */
-    public function deletePDF (Request $request){
+    public function deletePDF(Request $request){
         try{
             unlink(substr($request->get('PdfTmpPath'), 1));
         } catch (\Exception $e){
             return new Response('Can not delete pdf file from temporal directory, '.$e->getMessage().', please configure tmpPdfDirectory and pdf variables');
         }
         return new Response('');
+    }
+
+    /**
+     * @param ParameterBagInterface $parameterBag
+     */
+    public function setParams(ParameterBagInterface $parameterBag) {
+        $this->params = $parameterBag;
     }
 }
