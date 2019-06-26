@@ -10,3 +10,4 @@ services:
     class: jjalvarezl\PDFjsViewerBundle\Controller\ViewerController
     calls:
       - [setContainer, ["@service_container"]]
+      - [setParams, ["@parameter_bag"]]
