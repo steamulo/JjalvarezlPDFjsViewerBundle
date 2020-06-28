@@ -1,5 +1,5 @@
 {
-    "name": "jjalvarezl/pdfjs-viewer-bundle",
+    "name": "steamulo/pdfjs-viewer-bundle",
     "type": "symfony-bundle",
     "description": "This bundle provides an integration of pdf.js from mozilla with Symfony 3 framework and customizable parameters on server side",
     "keywords": ["pdfjs", "Symfony", "Symfony3", "pdf viewer"],

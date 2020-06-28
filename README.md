@@ -28,7 +28,7 @@ Installation
 Its necessary to provide the bundle's name in order to download it:
 
 ``` bash
-$ php composer.phar require jjalvarezl/pdfjs-viewer-bundle dev-sf3
+$ php composer.phar require steamulo/pdfjs-viewer-bundle dev-sf3
 ```
 
 ### 2) Enable the bundle
