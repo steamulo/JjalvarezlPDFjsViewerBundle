@@ -16,8 +16,8 @@
 
 'use strict';
 //PDFJS.disableWorker = true;
-var DEFAULT_URL = '/bundles/jjalvarezlpdfjsviewer/web/compressed.tracemonkey-pldi-09.pdf';
-var RUTA_VISOR_WEB = window.location.protocol + "//" + window.location.host + "/bundles/jjalvarezlpdfjsviewer/web/";
+var DEFAULT_URL = BASE_URL + '/bundles/jjalvarezlpdfjsviewer/web/compressed.tracemonkey-pldi-09.pdf';
+var RUTA_VISOR_WEB = BASE_URL + "/bundles/jjalvarezlpdfjsviewer/web/";
 
   var pdfjsWebLibs = {
     pdfjsWebPDFJS: window.pdfjsDistBuildPdf
