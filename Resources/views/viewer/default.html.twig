@@ -55,7 +55,7 @@ See https://github.com/adobe-type-tools/cmap-resources
                     {% if pdf is defined and tmpPdfDirectory is defined %}
                         data: { "PdfTmpPath": '{{ tmpPdfDirectory }}{{ pdf }}' },
                     {% elseif pdf is defined %}
-                        data: { "PdfTmpPath": {{ asset('/bundles/jjalvarezlpdfjsviewer/tmpPdf/' ~ pdf) }} },
+                        data: { "PdfTmpPath": '/bundles/jjalvarezlpdfjsviewer/tmpPdf/{{ pdf }}' },
                     {% else %}
                         data: { "PdfTmpPath": '' },
                     {% endif %}

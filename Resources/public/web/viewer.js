@@ -4292,14 +4292,16 @@ var SecondaryToolbar = (function SecondaryToolbarClosure() {
         var eventName = this.buttons[button].eventName;
         var close = this.buttons[button].close;
 
-        element.addEventListener('click', function (eventName, close) {
-          if (eventName !== null) {
-            this.eventBus.dispatch(eventName, { source: this, });
-          }
-          if (close) {
-            this.close();
-          }
-        }.bind(this, eventName, close));
+        if (element) {
+          element.addEventListener('click', function (eventName, close) {
+            if (eventName !== null) {
+              this.eventBus.dispatch(eventName, { source: this, });
+            }
+            if (close) {
+              this.close();
+            }
+          }.bind(this, eventName, close));
+        }
       }
     },
 
