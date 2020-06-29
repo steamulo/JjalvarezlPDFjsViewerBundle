@@ -7974,7 +7974,7 @@ var PDFViewerApplication = {
   },
 
   setTitle: function pdfViewSetTitle(title) {
-    if (this.isViewerEmbedded) {
+    if (this.isViewerEmbedded || TITLE_HTML) {
       // Embedded PDF viewers should not be changing their parent page's title.
       return;
     }

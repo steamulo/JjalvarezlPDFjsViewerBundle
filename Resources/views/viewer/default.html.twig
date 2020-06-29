@@ -30,6 +30,9 @@ See https://github.com/adobe-type-tools/cmap-resources
 
 
     <script>BASE_URL = '{{ asset('') }}';</script>
+    {% if titleHTML is defined %}
+        <script>const TITLE_HTML = '{{ titleHTML }}'</script>
+    {% endif %}
     <link rel="stylesheet" href="{{ asset('bundles/jjalvarezlpdfjsviewer/web/viewer.css') }}">
 
     <script src="{{ asset('bundles/jjalvarezlpdfjsviewer/web/compatibility.js') }}"></script>
