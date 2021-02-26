@@ -2,12 +2,13 @@
 
 namespace jjalvarezl\PDFjsViewerBundle\Controller;
 
-use Symfony\Bundle\FrameworkBundle\Controller\Controller;
-use Sensio\Bundle\FrameworkExtraBundle\Configuration\Route;
+use Exception;
+use Symfony\Bundle\FrameworkBundle\Controller\AbstractController;
+use Symfony\Component\Routing\Annotation\Route;
 use Symfony\Component\HttpFoundation\Request;
 use Symfony\Component\HttpFoundation\Response;
 
-class ViewerController extends Controller
+class ViewerController extends AbstractController
 {
     /**
      * Solves de pdf final location under the restriction that pdf's viewers can be only seen in
@@ -16,8 +17,8 @@ class ViewerController extends Controller
      * @param boolean $isPdfOutsideWebroot, determines if pdf is inside or outside webroot
      * @param $pdf, the path of the pdf, depends of $isPdfOutsideWebroot, if it's true, $pdf is absolute, else just the pdf complete name.
      * @param $tmpPdfPath, path of pdf's temporal dir
-     * @return final pdf name, it already is inside the temp dir of pdfs
-     * @throws \Exception
+     * @return string final pdf name, it already is inside the temp dir of pdfs
+     * @throws Exception
      */
     private function solvePDFLocation($isPdfOutsideWebroot, $pdf, $tmpPdfPath)
     {
@@ -26,9 +27,9 @@ class ViewerController extends Controller
         }
 
         if($isPdfOutsideWebroot){
-            exec('cp '.$pdf.' '.$this->get('kernel')->getRootDir().'/../web'.$tmpPdfPath.' 2>&1', $output, $returnVal);
+            exec('cp '.$pdf.' '.$this->getParameter('kernel.project_dir') .'/public'.$tmpPdfPath.' 2>&1', $output, $returnVal);
             if($returnVal!=0){
-                throw new \Exception('Can not copy pdf file to temporal directory: Exit='.$returnVal.' Message: '.implode(' ',$output));
+                throw new Exception('Can not copy pdf file to temporal directory: Exit='.$returnVal.' Message: '.implode(' ',$output));
             }
             $splittedPDFRoute = explode('/', $pdf);
             $pdf = end($splittedPDFRoute);
@@ -51,12 +52,14 @@ class ViewerController extends Controller
      * View a pdf with all visual elements but custom pdf location (inside or outside webroot)
      *
      * an example of custom parameters customizing the viewer's options.
-     *
+     * @param $parameters
+     * @return Response
+     * @throws Exception
      */
     public function renderDefaultViewer($parameters)
     {
 
-        $parameters['pdf'] = $this::solvePDFLocation(
+        $parameters['pdf'] = $this->solvePDFLocation(
             $parameters['isPdfOutsideWebroot'],
             $parameters['pdf'],
             !isset($parameters['tmpPdfDirectory'])? null : $parameters['tmpPdfDirectory']
@@ -74,7 +77,7 @@ class ViewerController extends Controller
      */
     public function renderCustomViewer($parameters)
     {
-        $parameters['pdf'] = $this::solvePDFLocation(
+        $parameters['pdf'] = $this->solvePDFLocation(
             $parameters['isPdfOutsideWebroot'],
             $parameters['pdf'],
             !isset($parameters['tmpPdfDirectory'])? null : $parameters['tmpPdfDirectory']
@@ -87,15 +90,15 @@ class ViewerController extends Controller
     /**
      * Pdf system deletion from tmpDir
      *
-     * @param string $PdfTmpPath , relative path to the pdf from webroot dir
+     * @param Request $request
+     * @return Response, Error in pdf deletion. If it's ok, this function must return an empty string.
      * @Route("/jjalvarezl_erase_pdf", name="jjalvarezl_erase_pdf")
      *
-     * @return Response, Error in pdf deletion. If it's ok, this function must return an empty string.
      */
     public function deletePDF (Request $request){
         try{
             unlink(substr($request->get('PdfTmpPath'), 1));
-        } catch (\Exception $e){
+        } catch (Exception $e){
             return new Response('Can not delete pdf file from temporal directory, '.$e->getMessage().', please configure tmpPdfDirectory and pdf variables');
         }
         return new Response('');

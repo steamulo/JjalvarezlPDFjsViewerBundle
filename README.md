@@ -113,7 +113,6 @@ $parameters = array(
         'showLeftToolbarButton' => true,
         'showSearchInDocumentButton' => true,
         'showPreviousPageButton' => true,
-        'showPreviousPageButton' => true,
         'showFindPageInputText' => true,
         'showNumberOfPagesLabel' => true,
         'showZoomInButton'=> false,
