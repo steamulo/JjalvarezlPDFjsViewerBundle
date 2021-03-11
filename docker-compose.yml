@@ -9,5 +9,6 @@ services:
     user: "${DUID:-0}:${DGID:-0}"
     volumes:
       - ./:/var/www/html
+      - ~/.composer:/.composer
     environment:
       PHP_IDE_CONFIG: serverName=pdfjsviewer-docker

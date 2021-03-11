@@ -76,9 +76,10 @@ You can choose from different ways to use this bundle:
 **Fast testing**
 
 You can verify functionality in multiple browsers, you can enable the default "[PDF.js viewer](https://mozilla.github.io/pdf.js/web/viewer.html)" with same loaded pdf in your function controller that returns a response:
+You should load the ViewerService.
 
 ```php
-return $this->get('jjalvarezl_pdfjs_viewer.viewer_controller')->renderTestViewer();
+return $viewerServier->renderTestViewer();
 ```
 
 **Default viewer**
@@ -95,9 +96,12 @@ $parameters = array(
 
         //Tell to the bundle that its necessary to delete pdf after render.
         'deletePdfInTmpAfterRenderized' => false,
+        
+        //Tell to the bundle the path of the project directory.
+        'projectDir' => $projectDir,
     );
 
-return $this->get('jjalvarezl_pdfjs_viewer.viewer_controller')->renderDefaultViewer($parameters);
+return $viewerServier->renderDefaultViewer($parameters);
 ```
 
 **Custom viewer**
@@ -126,7 +130,7 @@ $parameters = array(
         'showToolsButton'=> true,
     );
 
-return $this->get('jjalvarezl_pdfjs_viewer.viewer_controller')->renderCustomViewer($parameters);
+return $viewerService->renderCustomViewer($parameters);
 ```
 
 Here you can play with this parameters as you wish for customize the pdf viewer.

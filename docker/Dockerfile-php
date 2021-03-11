@@ -7,5 +7,5 @@ RUN chmod uga+x /usr/local/bin/install-php-extensions && sync && \
 RUN curl -sS https://getcomposer.org/installer | php -- --version=2.0.9 --install-dir=/usr/local/bin --filename=composer
 
 RUN apt update -y
-RUN apt install -y git
+RUN apt install -y git zip
 
